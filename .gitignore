@@ -1,0 +1,18 @@
+# Apple stuff:
+.DS_Code
+
+# IDEs stuff:
+.vscode/
+.idea/
+
+# Archives:
+*.zip
+*.tar.gz
+
+# Temporary artifacts:
+.tmp/
+logs/
+*.log
+
+# Targets:
+target/

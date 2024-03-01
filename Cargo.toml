@@ -1,0 +1,15 @@
+[package]
+name = "cedar-forest-game"
+version = "0.1.0"
+
+[workspace]
+resolver = "2"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[dependencies]
+bevy = { version = "0.13.0", features = ["dynamic_linking"] }

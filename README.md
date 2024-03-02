@@ -1,6 +1,6 @@
 # `cedar-forest-game`
 
-:hourglass: ... stay tuned!
+:hourglass: :mushroom: :evergreen_tree: ... stay tuned!
 
 ## Dependencies
 

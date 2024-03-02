@@ -22,7 +22,11 @@ pub struct Mushroom {
 pub struct MushroomParent;
 
 fn spawn_mushroom_parent(mut commands: Commands) {
-    commands.spawn((SpatialBundle::default(), MushroomParent, Name::new("Mushroom Parent")));
+    commands.spawn((
+        SpatialBundle::default(),
+        MushroomParent,
+        Name::new("Mushroom Parent"),
+    ));
 }
 
 fn spawn_mushroom(

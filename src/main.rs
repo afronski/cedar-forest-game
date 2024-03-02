@@ -1,53 +1,94 @@
-use bevy::prelude::*;
+use bevy::input::common_conditions::input_toggle_active;
+use bevy::{prelude::*, render::camera::ScalingMode};
+use bevy_inspector_egui::prelude::ReflectInspectorOptions;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_inspector_egui::InspectorOptions;
+use mushroom::MushroomPlugin;
+use ui::GameUI;
 
-#[derive(Component)]
-struct Person;
-
-#[derive(Component)]
-struct Name(String);
-
-fn add_people(mut commands: Commands) {
-    commands.spawn((Person, Name("Wojtek G.".to_string())));
+#[derive(Component, InspectorOptions, Default, Reflect)]
+#[reflect(Component, InspectorOptions)]
+pub struct Player {
+    #[inspector(min = 0.0)]
+    pub speed: f32,
 }
 
-#[derive(Resource)]
-struct GreetTimer(Timer);
+#[derive(Resource, Default, Reflect)]
+#[reflect(Resource)]
+pub struct Money(pub f32);
 
-fn greet_people(
-    time: Res<Time>,
-    mut timer: ResMut<GreetTimer>,
-    query: Query<&Name, With<Person>>
-) {
-    // update our timer with the time elapsed since the last update
-    // if that caused the timer to finish, we say hello to everyone
-    if timer.0.tick(time.delta()).just_finished() {
-        for name in &query {
-            println!("hello {}!", name.0);
-        }
-    }
-}
-
-fn update_people(mut query: Query<&mut Name, With<Person>>) {
-    for mut name in &mut query {
-        if name.0 == "Wojtek G." {
-            name.0 = "Wojtek Gawroński".to_string();
-            break; 
-        }
-    }
-}
-
-pub struct HelloPlugin;
-
-impl Plugin for HelloPlugin {
-    fn build(&self, app: &mut App) {
-        app.insert_resource(GreetTimer(Timer::from_seconds(2.0, TimerMode::Repeating)))
-            .add_systems(Startup, add_people)
-            .add_systems(Update, (update_people, greet_people).chain());
-    }
-}
+mod mushroom;
+mod ui;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, HelloPlugin))
+        .add_plugins(
+            DefaultPlugins
+                .set(ImagePlugin::default_nearest())
+                .set(WindowPlugin {
+                    primary_window: Some(Window {
+                        title: "Cedar Forest".into(),
+                        resolution: (640.0, 480.0).into(),
+                        resizable: false,
+                        ..default()
+                    }),
+                    ..default()
+                })
+                .build(),
+        )
+        .add_plugins(
+            WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::Escape)),
+        )
+        .insert_resource(Money(100.0))
+        .register_type::<Money>()
+        .register_type::<Player>()
+        .add_plugins((MushroomPlugin, GameUI))
+        .add_systems(Startup, setup)
+        .add_systems(Update, character_movement)
         .run();
+}
+
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let mut camera = Camera2dBundle::default();
+
+    camera.projection.scaling_mode = ScalingMode::AutoMin {
+        min_width: 256.0,
+        min_height: 144.0,
+    };
+
+    commands.spawn(camera);
+
+    let texture = asset_server.load("player.png");
+
+    commands.spawn((
+        SpriteBundle {
+            texture,
+            ..default()
+        },
+        Player { speed: 100.0 },
+        Name::new("Player"),
+    ));
+}
+
+fn character_movement(
+    mut characters: Query<(&mut Transform, &Player)>,
+    input: Res<ButtonInput<KeyCode>>,
+    time: Res<Time>,
+) {
+    for (mut transform, player) in &mut characters {
+        let movement_amount = player.speed * time.delta_seconds();
+
+        if input.pressed(KeyCode::ArrowUp) {
+            transform.translation.y += movement_amount;
+        }
+        if input.pressed(KeyCode::ArrowDown) {
+            transform.translation.y -= movement_amount;
+        }
+        if input.pressed(KeyCode::ArrowRight) {
+            transform.translation.x += movement_amount;
+        }
+        if input.pressed(KeyCode::ArrowLeft) {
+            transform.translation.x -= movement_amount;
+        }
+    }
 }

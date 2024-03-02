@@ -11,6 +11,10 @@ $ asdf plugin add rust
 $ asdf install rust 1.76.0
 ```
 
+## Artwork
+
+- [ishtarpixels](https://ishtarpixels.itch.io/top-down-asset-pack-10) (*Royalty Free*)
+
 ## License
 
 - [MIT](LICENSE)

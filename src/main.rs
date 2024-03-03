@@ -28,7 +28,7 @@ fn main() {
                 .set(WindowPlugin {
                     primary_window: Some(Window {
                         title: "Cedar Forest".into(),
-                        resolution: (640.0, 480.0).into(),
+                        resolution: (800.0, 600.0).into(),
                         resizable: false,
                         ..default()
                     }),
@@ -37,7 +37,7 @@ fn main() {
                 .build(),
         )
         .add_plugins(
-            WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::Escape)),
+            WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)),
         )
         .insert_resource(Money(100.0))
         .register_type::<Money>()

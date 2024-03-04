@@ -1,6 +1,5 @@
 use bevy::prelude::*;
-
-use crate::Money;
+use crate::game;
 
 pub struct GameUI;
 
@@ -47,7 +46,7 @@ fn spawn_game_ui(mut commands: Commands) {
         });
 }
 
-fn update_money_ui(mut texts: Query<&mut Text, With<MoneyText>>, money: Res<Money>) {
+fn update_money_ui(mut texts: Query<&mut Text, With<MoneyText>>, money: Res<game::Money>) {
     for mut text in &mut texts {
         text.sections[0].value = format!("Money: ${:?}", money.0);
     }

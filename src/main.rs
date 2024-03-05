@@ -1,14 +1,14 @@
-mod mushroom;
-mod game_ui;
-mod splash;
 mod game;
+mod game_ui;
 mod menu;
+mod mushroom;
+mod splash;
 
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use mushroom::MushroomPlugin;
 use game_ui::GameUI;
+use mushroom::MushroomPlugin;
 
 const TEXT_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
 

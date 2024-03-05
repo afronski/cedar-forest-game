@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use crate::game;
+use bevy::prelude::*;
 
 pub struct GameUI;
 

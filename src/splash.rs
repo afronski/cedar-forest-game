@@ -6,8 +6,7 @@ use bevy::prelude::*;
 use super::{despawn_screen, GameState};
 
 pub fn splash_plugin(app: &mut App) {
-    app
-        .add_systems(OnEnter(GameState::Splash), splash_setup)
+    app.add_systems(OnEnter(GameState::Splash), splash_setup)
         .add_systems(Update, countdown.run_if(in_state(GameState::Splash)))
         .add_systems(OnExit(GameState::Splash), despawn_screen::<OnSplashScreen>);
 }

@@ -1,12 +1,15 @@
+use crate::menu;
 use bevy::asset::AssetServer;
 use bevy::core::Name;
 use bevy::ecs::reflect::{ReflectComponent, ReflectResource};
 use bevy::input::ButtonInput;
-use bevy::prelude::{Camera2dBundle, Commands, Component, default, KeyCode, Query, Reflect, Res, Resource, SpriteBundle, Time, Transform};
+use bevy::prelude::{
+    default, Camera2dBundle, Commands, Component, KeyCode, Query, Reflect, Res, Resource,
+    SpriteBundle, Time, Transform,
+};
 use bevy::render::camera::ScalingMode;
-use bevy_inspector_egui::InspectorOptions;
 use bevy_inspector_egui::prelude::ReflectInspectorOptions;
-use crate::menu;
+use bevy_inspector_egui::InspectorOptions;
 
 #[derive(Resource, Default, Reflect)]
 #[reflect(Resource)]
@@ -19,7 +22,11 @@ pub struct Player {
     pub speed: f32,
 }
 
-pub fn game_setup(mut commands: Commands, asset_server: Res<AssetServer>, configured_speed: Res<menu::SpeedConfiguration>) {
+pub fn game_setup(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    configured_speed: Res<menu::SpeedConfiguration>,
+) {
     let mut camera = Camera2dBundle::default();
 
     camera.projection.scaling_mode = ScalingMode::AutoMin {
@@ -36,7 +43,9 @@ pub fn game_setup(mut commands: Commands, asset_server: Res<AssetServer>, config
             texture,
             ..default()
         },
-        Player { speed: ((*configured_speed) as u8) as f32 },
+        Player {
+            speed: ((*configured_speed) as u8) as f32,
+        },
         Name::new("Player"),
     ));
 }

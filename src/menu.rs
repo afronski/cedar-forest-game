@@ -1,5 +1,5 @@
-use bevy::{app::AppExit, prelude::*};
 use super::{GameState, TEXT_COLOR};
+use bevy::{app::AppExit, prelude::*};
 
 #[derive(Resource, Debug, Component, PartialEq, Eq, Clone, Copy)]
 #[repr(u8)]
@@ -10,11 +10,13 @@ pub enum SpeedConfiguration {
 }
 
 pub fn menu_plugin(app: &mut App) {
-    app
-        .init_state::<MenuState>()
+    app.init_state::<MenuState>()
         .add_systems(OnEnter(GameState::Menu), menu_setup)
         .add_systems(OnEnter(MenuState::Main), main_menu_setup)
-        .add_systems(OnExit(MenuState::Main), crate::despawn_screen::<OnMainMenuScreen>)
+        .add_systems(
+            OnExit(MenuState::Main),
+            crate::despawn_screen::<OnMainMenuScreen>,
+        )
         .add_systems(OnEnter(MenuState::Settings), settings_menu_setup)
         .add_systems(
             OnExit(MenuState::Settings),
@@ -176,10 +178,10 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                                 ..default()
                             },
                         )
-                            .with_style(Style {
-                                margin: UiRect::all(Val::Px(50.0)),
-                                ..default()
-                            }),
+                        .with_style(Style {
+                            margin: UiRect::all(Val::Px(50.0)),
+                            ..default()
+                        }),
                     );
 
                     // Display three buttons for each action available from the main menu:

@@ -1,5 +1,5 @@
-use bevy::prelude::*;
 use crate::game::{Money, Player};
+use bevy::prelude::*;
 
 pub struct MushroomPlugin;
 

@@ -27,7 +27,7 @@ fn spawn_game_ui(mut commands: Commands) {
                 background_color: Color::BLUE.into(),
                 ..default()
             },
-            Name::new("UI Root"),
+            Name::new("Game UI Root"),
         ))
         .with_children(|commands| {
             commands.spawn((

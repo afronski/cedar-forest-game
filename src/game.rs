@@ -1,8 +1,8 @@
+use crate::menu;
 use bevy::app::AppExit;
 use bevy::prelude::*;
 use bevy_inspector_egui::prelude::ReflectInspectorOptions;
 use bevy_inspector_egui::InspectorOptions;
-use crate::menu;
 
 #[derive(Resource, Default, Reflect)]
 #[reflect(Resource)]

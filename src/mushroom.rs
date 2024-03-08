@@ -1,6 +1,6 @@
 use crate::game::{Money, Player};
-use bevy::prelude::*;
 use crate::menu;
+use bevy::prelude::*;
 
 pub struct MushroomPlugin;
 
@@ -67,8 +67,8 @@ fn spawn_mushroom(
                     ));
                 });
             }
-        },
-        _ => {},
+        }
+        _ => {}
     }
 }
 
@@ -96,7 +96,7 @@ fn mushroom_lifetime(
                     info!("Mushroom sold for $15! Current Money: ${:?}", money.0);
                 }
             }
-        },
-        _ => {},
+        }
+        _ => {}
     }
 }

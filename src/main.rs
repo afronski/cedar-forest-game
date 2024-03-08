@@ -1,17 +1,17 @@
+mod camera;
 mod game;
 mod game_ui;
 mod menu;
 mod mushroom;
-mod camera;
 
-use bevy::prelude::*;
-use bevy::input::common_conditions::input_toggle_active;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use crate::camera::GlobalCameraPlugin;
 use crate::game::GamePlugin;
 use crate::game_ui::GameUiPlugin;
 use crate::menu::MenuPlugin;
 use crate::mushroom::MushroomPlugin;
+use bevy::input::common_conditions::input_toggle_active;
+use bevy::prelude::*;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 fn main() {
     App::new()
@@ -29,16 +29,14 @@ fn main() {
                 })
                 .build(),
         )
-        .add_plugins(
-            (
-                WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::F12)),
-                GlobalCameraPlugin,
-                MenuPlugin,
-                GamePlugin,
-                GameUiPlugin,
-                MushroomPlugin
-            )
-        )
+        .add_plugins((
+            WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::F12)),
+            GlobalCameraPlugin,
+            MenuPlugin,
+            GamePlugin,
+            GameUiPlugin,
+            MushroomPlugin,
+        ))
         .insert_state(menu::GameState::Menu)
         .run();
 }

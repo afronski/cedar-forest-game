@@ -1,5 +1,13 @@
-use super::{GameState, TEXT_COLOR};
 use bevy::{app::AppExit, prelude::*};
+
+const TEXT_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
+
+#[derive(Clone, Copy, Default, Eq, PartialEq, Debug, Hash, States)]
+pub enum GameState {
+    #[default]
+    Menu,
+    Game,
+}
 
 #[derive(Resource, Debug, Component, PartialEq, Eq, Clone, Copy)]
 #[repr(u8)]
@@ -9,35 +17,41 @@ pub enum SpeedConfiguration {
     Slow = 50,
 }
 
-pub fn menu_plugin(app: &mut App) {
-    app.init_state::<MenuState>()
-        .add_systems(OnEnter(GameState::Menu), menu_setup)
-        .add_systems(OnEnter(MenuState::Main), main_menu_setup)
-        .add_systems(
-            OnExit(MenuState::Main),
-            crate::despawn_screen::<OnMainMenuScreen>,
-        )
-        .add_systems(OnEnter(MenuState::Settings), settings_menu_setup)
-        .add_systems(
-            OnExit(MenuState::Settings),
-            crate::despawn_screen::<OnSettingsMenuScreen>,
-        )
-        .add_systems(
-            OnEnter(MenuState::SettingsGameplay),
-            gameplay_settings_menu_setup,
-        )
-        .add_systems(
-            Update,
-            (setting_button::<SpeedConfiguration>.run_if(in_state(MenuState::SettingsGameplay)),),
-        )
-        .add_systems(
-            OnExit(MenuState::SettingsGameplay),
-            crate::despawn_screen::<OnGameplaySettingsMenuScreen>,
-        )
-        .add_systems(
-            Update,
-            (menu_action, button_system).run_if(in_state(GameState::Menu)),
-        );
+pub struct MenuPlugin;
+
+impl Plugin for MenuPlugin {
+    fn build(&self, app: &mut App) {
+        app.init_state::<MenuState>()
+            .add_systems(Startup, menu_setup)
+            .add_systems(OnEnter(MenuState::Main), main_menu_setup)
+            .add_systems(
+                OnExit(MenuState::Main),
+                crate::despawn_screen::<OnMainMenuScreen>,
+            )
+            .add_systems(OnEnter(MenuState::Settings), settings_menu_setup)
+            .add_systems(
+                OnExit(MenuState::Settings),
+                crate::despawn_screen::<OnSettingsMenuScreen>,
+            )
+            .add_systems(
+                OnEnter(MenuState::SettingsGameplay),
+                gameplay_settings_menu_setup,
+            )
+            .add_systems(
+                Update,
+                (setting_button::<SpeedConfiguration>
+                    .run_if(in_state(MenuState::SettingsGameplay)),),
+            )
+            .add_systems(
+                OnExit(MenuState::SettingsGameplay),
+                crate::despawn_screen::<OnGameplaySettingsMenuScreen>,
+            )
+            .add_systems(
+                Update,
+                (menu_action, button_system).run_if(in_state(GameState::Menu)),
+            )
+            .insert_resource(SpeedConfiguration::Slow);
+    }
 }
 
 #[derive(Clone, Copy, Default, Eq, PartialEq, Debug, Hash, States)]
@@ -78,7 +92,6 @@ enum MenuButtonAction {
     Quit,
 }
 
-// This system handles changing all buttons color based on mouse interaction
 fn button_system(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, Option<&SelectedOption>),
@@ -118,8 +131,7 @@ fn menu_setup(mut menu_state: ResMut<NextState<MenuState>>) {
     menu_state.set(MenuState::Main);
 }
 
-fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    // Common style for all buttons on the screen
+fn main_menu_setup(mut commands: Commands) {
     let button_style = Style {
         width: Val::Px(250.0),
         height: Val::Px(65.0),
@@ -128,14 +140,7 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         align_items: AlignItems::Center,
         ..default()
     };
-    let button_icon_style = Style {
-        width: Val::Px(30.0),
-        // This takes the icons out of the flexbox flow, to be positioned exactly
-        position_type: PositionType::Absolute,
-        // The icon will be close to the left border of the button
-        left: Val::Px(10.0),
-        ..default()
-    };
+
     let button_text_style = TextStyle {
         font_size: 40.0,
         color: TEXT_COLOR,
@@ -184,10 +189,6 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         }),
                     );
 
-                    // Display three buttons for each action available from the main menu:
-                    // - new game
-                    // - settings
-                    // - quit
                     parent
                         .spawn((
                             ButtonBundle {
@@ -198,12 +199,6 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                             MenuButtonAction::Play,
                         ))
                         .with_children(|parent| {
-                            let icon = asset_server.load("textures/Game Icons/right.png");
-                            parent.spawn(ImageBundle {
-                                style: button_icon_style.clone(),
-                                image: UiImage::new(icon),
-                                ..default()
-                            });
                             parent.spawn(TextBundle::from_section(
                                 "New Game",
                                 button_text_style.clone(),
@@ -219,12 +214,6 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                             MenuButtonAction::Settings,
                         ))
                         .with_children(|parent| {
-                            let icon = asset_server.load("textures/Game Icons/wrench.png");
-                            parent.spawn(ImageBundle {
-                                style: button_icon_style.clone(),
-                                image: UiImage::new(icon),
-                                ..default()
-                            });
                             parent.spawn(TextBundle::from_section(
                                 "Settings",
                                 button_text_style.clone(),
@@ -240,12 +229,6 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                             MenuButtonAction::Quit,
                         ))
                         .with_children(|parent| {
-                            let icon = asset_server.load("textures/Game Icons/exitRight.png");
-                            parent.spawn(ImageBundle {
-                                style: button_icon_style,
-                                image: UiImage::new(icon),
-                                ..default()
-                            });
                             parent.spawn(TextBundle::from_section("Quit", button_text_style));
                         });
                 });

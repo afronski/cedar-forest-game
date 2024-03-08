@@ -1,14 +1,14 @@
-use crate::game;
+use crate::{game, menu};
 use bevy::prelude::*;
 
-pub struct GameUI;
+pub struct GameUiPlugin;
 
 #[derive(Component)]
 pub struct MoneyText;
 
-impl Plugin for GameUI {
+impl Plugin for GameUiPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_game_ui)
+        app.add_systems(OnEnter(menu::GameState::Game), spawn_game_ui)
             .add_systems(Update, update_money_ui);
     }
 }

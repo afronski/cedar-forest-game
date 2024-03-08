@@ -1,15 +1,8 @@
-use crate::menu;
-use bevy::asset::AssetServer;
-use bevy::core::Name;
-use bevy::ecs::reflect::{ReflectComponent, ReflectResource};
-use bevy::input::ButtonInput;
-use bevy::prelude::{
-    default, Camera2dBundle, Commands, Component, KeyCode, Query, Reflect, Res, Resource,
-    SpriteBundle, Time, Transform,
-};
-use bevy::render::camera::ScalingMode;
+use bevy::app::AppExit;
+use bevy::prelude::*;
 use bevy_inspector_egui::prelude::ReflectInspectorOptions;
 use bevy_inspector_egui::InspectorOptions;
+use crate::menu;
 
 #[derive(Resource, Default, Reflect)]
 #[reflect(Resource)]
@@ -22,20 +15,23 @@ pub struct Player {
     pub speed: f32,
 }
 
-pub fn game_setup(
+pub struct GamePlugin;
+
+impl Plugin for GamePlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(OnEnter(menu::GameState::Game), game_setup)
+            .add_systems(Update, character_movement)
+            .register_type::<Money>()
+            .register_type::<Player>()
+            .insert_resource(Money(100.0));
+    }
+}
+
+fn game_setup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     configured_speed: Res<menu::SpeedConfiguration>,
 ) {
-    let mut camera = Camera2dBundle::default();
-
-    camera.projection.scaling_mode = ScalingMode::AutoMin {
-        min_width: 256.0,
-        min_height: 144.0,
-    };
-
-    commands.spawn(camera);
-
     let texture = asset_server.load("player.png");
 
     commands.spawn((
@@ -50,7 +46,8 @@ pub fn game_setup(
     ));
 }
 
-pub fn character_movement(
+fn character_movement(
+    mut app_exit_events: EventWriter<AppExit>,
     mut characters: Query<(&mut Transform, &Player)>,
     input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
@@ -69,6 +66,9 @@ pub fn character_movement(
         }
         if input.pressed(KeyCode::ArrowLeft) {
             transform.translation.x -= movement_amount;
+        }
+        if input.pressed(KeyCode::Escape) {
+            app_exit_events.send(AppExit);
         }
     }
 }

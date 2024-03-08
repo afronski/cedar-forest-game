@@ -2,23 +2,16 @@ mod game;
 mod game_ui;
 mod menu;
 mod mushroom;
-mod splash;
+mod camera;
 
-use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
+use bevy::input::common_conditions::input_toggle_active;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use game_ui::GameUI;
-use mushroom::MushroomPlugin;
-
-const TEXT_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
-
-#[derive(Clone, Copy, Default, Eq, PartialEq, Debug, Hash, States)]
-enum GameState {
-    #[default]
-    Splash,
-    Menu,
-    Game,
-}
+use crate::camera::GlobalCameraPlugin;
+use crate::game::GamePlugin;
+use crate::game_ui::GameUiPlugin;
+use crate::menu::MenuPlugin;
+use crate::mushroom::MushroomPlugin;
 
 fn main() {
     App::new()
@@ -37,14 +30,16 @@ fn main() {
                 .build(),
         )
         .add_plugins(
-            WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)),
+            (
+                WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::F12)),
+                GlobalCameraPlugin,
+                MenuPlugin,
+                GamePlugin,
+                GameUiPlugin,
+                MushroomPlugin
+            )
         )
-        .insert_resource(game::Money(100.0))
-        .register_type::<game::Money>()
-        .register_type::<game::Player>()
-        .add_plugins((MushroomPlugin, GameUI))
-        .add_systems(Startup, game::game_setup)
-        .add_systems(Update, game::character_movement)
+        .insert_state(menu::GameState::Menu)
         .run();
 }
 

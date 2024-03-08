@@ -3,12 +3,6 @@ mod game;
 mod game_ui;
 mod menu;
 mod mushroom;
-
-use crate::camera::GlobalCameraPlugin;
-use crate::game::GamePlugin;
-use crate::game_ui::GameUiPlugin;
-use crate::menu::MenuPlugin;
-use crate::mushroom::MushroomPlugin;
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
@@ -31,11 +25,11 @@ fn main() {
         )
         .add_plugins((
             WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::F12)),
-            GlobalCameraPlugin,
-            MenuPlugin,
-            GamePlugin,
-            GameUiPlugin,
-            MushroomPlugin,
+            camera::GlobalCameraPlugin,
+            menu::MenuPlugin,
+            game::GamePlugin,
+            game_ui::GameUiPlugin,
+            mushroom::MushroomPlugin,
         ))
         .insert_state(menu::GameState::Menu)
         .run();

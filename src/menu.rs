@@ -169,14 +169,13 @@ fn main_menu_setup(mut commands: Commands) {
                         align_items: AlignItems::Center,
                         ..default()
                     },
-                    background_color: Color::CRIMSON.into(),
                     ..default()
                 })
                 .with_children(|parent| {
                     // Display the game name
                     parent.spawn(
                         TextBundle::from_section(
-                            "Bevy Game Menu UI",
+                            "Cedar Forest",
                             TextStyle {
                                 font_size: 80.0,
                                 color: TEXT_COLOR,
@@ -273,7 +272,6 @@ fn settings_menu_setup(mut commands: Commands) {
                         align_items: AlignItems::Center,
                         ..default()
                     },
-                    background_color: Color::CRIMSON.into(),
                     ..default()
                 })
                 .with_children(|parent| {
@@ -339,7 +337,6 @@ fn gameplay_settings_menu_setup(mut commands: Commands, speed: Res<SpeedConfigur
                         align_items: AlignItems::Center,
                         ..default()
                     },
-                    background_color: Color::CRIMSON.into(),
                     ..default()
                 })
                 .with_children(|parent| {
@@ -349,12 +346,11 @@ fn gameplay_settings_menu_setup(mut commands: Commands, speed: Res<SpeedConfigur
                                 align_items: AlignItems::Center,
                                 ..default()
                             },
-                            background_color: Color::CRIMSON.into(),
                             ..default()
                         })
                         .with_children(|parent| {
                             parent.spawn(TextBundle::from_section(
-                                "Player Speed",
+                                "Speed",
                                 button_text_style.clone(),
                             ));
 

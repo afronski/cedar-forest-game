@@ -12,4 +12,27 @@ opt-level = 3
 [dependencies]
 bevy = { version = "0.13", features = ["dynamic_linking"] }
 bevy-inspector-egui = "0.23"
+bevy_ecs_tilemap = { git = "https://github.com/rparrett/bevy_ecs_tilemap", branch = "bevy13" }
 cedar-policy = "3.0"
+ldtk_rust = { version = "0.6" }
+thiserror = "1.0.57"
+serde_json = "1.0.114"
+log = "0.4.21"
+rand = "0.8.5"
+tiled = { version = "0.11.2" }
+
+[[example]]
+name="game_of_life"
+path="examples/game_of_life.rs"
+
+[[example]]
+name="ldtk"
+path="examples/ldtk.rs"
+
+[[example]]
+name="random_map"
+path="examples/random_map.rs"
+
+[[example]]
+name="tmx"
+path="examples/tmx.rs"

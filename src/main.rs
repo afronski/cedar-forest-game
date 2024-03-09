@@ -3,6 +3,7 @@ mod game;
 mod game_ui;
 mod menu;
 mod mushroom;
+
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;

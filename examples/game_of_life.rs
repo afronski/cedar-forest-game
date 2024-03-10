@@ -1,7 +1,7 @@
 use bevy::prelude::*;
+use bevy::{math::Vec3, prelude::*, render::camera::Camera};
 use bevy_ecs_tilemap::helpers::square_grid::neighbors::Neighbors;
 use bevy_ecs_tilemap::prelude::*;
-use bevy::{math::Vec3, prelude::*, render::camera::Camera};
 
 fn movement(
     time: Res<Time>,

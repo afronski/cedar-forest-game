@@ -111,7 +111,7 @@ impl AssetLoader for TiledLoader {
 
             let mut tilemap_textures = HashMap::default();
             #[cfg(not(feature = "atlas"))]
-                let mut tile_image_offsets = HashMap::default();
+            let mut tile_image_offsets = HashMap::default();
 
             for (tileset_index, tileset) in map.tilesets().iter().enumerate() {
                 let tilemap_texture = match &tileset.image {
@@ -245,10 +245,10 @@ pub fn process_loaded_maps(
                 // this means we need to load each combination of tileset and layer separately.
                 for (tileset_index, tileset) in tiled_map.map.tilesets().iter().enumerate() {
                     let Some(tilemap_texture) = tiled_map.tilemap_textures.get(&tileset_index)
-                        else {
-                            log::warn!("Skipped creating layer with missing tilemap textures.");
-                            continue;
-                        };
+                    else {
+                        log::warn!("Skipped creating layer with missing tilemap textures.");
+                        continue;
+                    };
 
                     let tile_size = TilemapTileSize {
                         x: tileset.tile_width as f32,

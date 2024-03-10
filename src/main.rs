@@ -1,12 +1,13 @@
-mod camera;
-mod game;
-mod game_ui;
-mod menu;
-mod mushroom;
-
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+
+pub mod camera;
+pub mod game;
+pub mod game_ui;
+pub mod menu;
+pub mod mushroom;
+mod helpers;
 
 fn main() {
     App::new()
@@ -34,10 +35,4 @@ fn main() {
         ))
         .insert_state(menu::GameState::Menu)
         .run();
-}
-
-pub fn despawn_screen<T: Component>(to_despawn: Query<Entity, With<T>>, mut commands: Commands) {
-    for entity in &to_despawn {
-        commands.entity(entity).despawn_recursive();
-    }
 }

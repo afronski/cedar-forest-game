@@ -1,4 +1,5 @@
 use bevy::{app::AppExit, prelude::*};
+use crate::helpers;
 
 const TEXT_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
 
@@ -26,12 +27,12 @@ impl Plugin for MenuPlugin {
             .add_systems(OnEnter(MenuState::Main), main_menu_setup)
             .add_systems(
                 OnExit(MenuState::Main),
-                crate::despawn_screen::<OnMainMenuScreen>,
+                helpers::cleaning::despawn_screen::<OnMainMenuScreen>,
             )
             .add_systems(OnEnter(MenuState::Settings), settings_menu_setup)
             .add_systems(
                 OnExit(MenuState::Settings),
-                crate::despawn_screen::<OnSettingsMenuScreen>,
+                helpers::cleaning::despawn_screen::<OnSettingsMenuScreen>,
             )
             .add_systems(
                 OnEnter(MenuState::SettingsGameplay),
@@ -44,7 +45,7 @@ impl Plugin for MenuPlugin {
             )
             .add_systems(
                 OnExit(MenuState::SettingsGameplay),
-                crate::despawn_screen::<OnGameplaySettingsMenuScreen>,
+                helpers::cleaning::despawn_screen::<OnGameplaySettingsMenuScreen>,
             )
             .add_systems(
                 Update,

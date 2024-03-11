@@ -1,5 +1,5 @@
-use bevy::{app::AppExit, prelude::*};
 use crate::helpers;
+use bevy::{app::AppExit, prelude::*};
 
 const TEXT_COLOR: Color = Color::rgb(0.9, 0.9, 0.9);
 

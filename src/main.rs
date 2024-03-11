@@ -5,9 +5,9 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 pub mod camera;
 pub mod game;
 pub mod game_ui;
+mod helpers;
 pub mod menu;
 pub mod mushroom;
-mod helpers;
 
 fn main() {
     App::new()

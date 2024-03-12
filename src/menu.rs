@@ -200,7 +200,7 @@ fn main_menu_setup(mut commands: Commands) {
                         ))
                         .with_children(|parent| {
                             parent.spawn(TextBundle::from_section(
-                                "New Game",
+                                "Start Game",
                                 button_text_style.clone(),
                             ));
                         });

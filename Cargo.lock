@@ -341,9 +341,9 @@ dependencies = [
 
 [[package]]
 name = "bevy-inspector-egui"
-version = "0.23.3"
+version = "0.23.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "972b5890423104b81901102fd8c53d56df56a3c9b1bad5e818122119b6b6b66c"
+checksum = "bb36c3adb02afa4496085250d437217b2a5280d8dd464937c6c5b21bc88830c0"
 dependencies = [
  "bevy-inspector-egui-derive",
  "bevy_app",
@@ -1354,15 +1354,16 @@ dependencies = [
 
 [[package]]
 name = "cedar-policy"
-version = "3.0.1"
+version = "3.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e497043f26d1ae7326a27dfbfa7a1169ae96311219663d8d8d8da5053a66c9a3"
+checksum = "525de957cd5bd89d8ca06b2a7b8288d81216c5552dd1b79b379549b07bb7ebc1"
 dependencies = [
  "cedar-policy-core",
  "cedar-policy-validator",
  "itertools 0.12.1",
  "lalrpop-util",
  "miette",
+ "nonempty",
  "ref-cast",
  "serde",
  "serde_json",
@@ -1373,9 +1374,9 @@ dependencies = [
 
 [[package]]
 name = "cedar-policy-core"
-version = "3.0.1"
+version = "3.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c91c5016e8cadabfbd1ece964cc279b6b9864766fb2d03a5f746171a3cc4a497"
+checksum = "142b17332a850b4d8a548e6cc7e430d66e8449e3a5462ae5331245fbda15405b"
 dependencies = [
  "either",
  "itertools 0.12.1",
@@ -1383,6 +1384,7 @@ dependencies = [
  "lalrpop-util",
  "lazy_static",
  "miette",
+ "nonempty",
  "regex",
  "rustc_lexer",
  "serde",
@@ -1395,12 +1397,17 @@ dependencies = [
 
 [[package]]
 name = "cedar-policy-validator"
-version = "3.0.1"
+version = "3.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9edea433dce426b8049403cb62b7f8914f476aabfcfea45e42ebd31201b3aa1e"
+checksum = "2300e2650335460f343d165df3637dba97a53a7dfe6be2808c67d4600fbe469e"
 dependencies = [
  "cedar-policy-core",
  "itertools 0.12.1",
+ "lalrpop",
+ "lalrpop-util",
+ "lazy_static",
+ "miette",
+ "nonempty",
  "serde",
  "serde_json",
  "serde_with",
@@ -2860,21 +2867,22 @@ dependencies = [
 
 [[package]]
 name = "miette"
-version = "5.10.0"
+version = "7.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59bb584eaeeab6bd0226ccf3509a69d7936d148cf3d036ad350abe35e8c6856e"
+checksum = "4edc8853320c2a0dab800fbda86253c8938f6ea88510dc92c5f1ed20e794afc1"
 dependencies = [
+ "cfg-if",
  "miette-derive",
- "once_cell",
+ "serde",
  "thiserror",
  "unicode-width",
 ]
 
 [[package]]
 name = "miette-derive"
-version = "5.10.0"
+version = "7.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "49e7bc1560b95a3c4a25d03de42fe76ca718ab92d1a22a55b9b4cf67b3ae635c"
+checksum = "dcf09caffaac8068c346b6df2a7fc27a177fd20b39421a39ce0a211bde679a6c"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3034,6 +3042,12 @@ dependencies = [
  "memchr",
  "minimal-lexical",
 ]
+
+[[package]]
+name = "nonempty"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "995defdca0a589acfdd1bd2e8e3b896b4d4f7675a31fd14c32611440c7f608e6"
 
 [[package]]
 name = "nonmax"
@@ -3976,18 +3990,18 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "1.0.57"
+version = "1.0.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e45bcbe8ed29775f228095caf2cd67af7a4ccf756ebff23a306bf3e8b47b24b"
+checksum = "03468839009160513471e86a034bb2c5c0e4baae3b43f79ffc55c4a5427b3297"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.57"
+version = "1.0.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a953cb265bef375dae3de6663da4d3804eee9682ea80d8e2542529b73c531c81"
+checksum = "c61f3ba182994efc43764a46c018c347bc492c79f024e705f46567b418f6d4f7"
 dependencies = [
  "proc-macro2",
  "quote",

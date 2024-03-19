@@ -132,6 +132,38 @@ fn menu_setup(mut menu_state: ResMut<NextState<MenuState>>) {
     menu_state.set(MenuState::Main);
 }
 
+fn create_button_style() -> Style {
+    Style {
+        width: Val::Px(200.0),
+        height: Val::Px(65.0),
+        margin: UiRect::all(Val::Px(20.0)),
+        justify_content: JustifyContent::Center,
+        align_items: AlignItems::Center,
+        ..default()
+    }
+}
+
+fn create_button_text_style() -> TextStyle {
+    TextStyle {
+        font_size: 40.0,
+        color: TEXT_COLOR,
+        ..default()
+    }
+}
+
+fn create_menu_node_bundle() -> NodeBundle {
+    NodeBundle {
+        style: Style {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
+            ..default()
+        },
+        ..default()
+    }
+}
+
 fn main_menu_setup(mut commands: Commands) {
     let button_style = Style {
         width: Val::Px(250.0),
@@ -149,19 +181,7 @@ fn main_menu_setup(mut commands: Commands) {
     };
 
     commands
-        .spawn((
-            NodeBundle {
-                style: Style {
-                    width: Val::Percent(100.0),
-                    height: Val::Percent(100.0),
-                    align_items: AlignItems::Center,
-                    justify_content: JustifyContent::Center,
-                    ..default()
-                },
-                ..default()
-            },
-            OnMainMenuScreen,
-        ))
+        .spawn((create_menu_node_bundle(), OnMainMenuScreen))
         .with_children(|parent| {
             parent
                 .spawn(NodeBundle {
@@ -236,35 +256,11 @@ fn main_menu_setup(mut commands: Commands) {
 }
 
 fn settings_menu_setup(mut commands: Commands) {
-    let button_style = Style {
-        width: Val::Px(200.0),
-        height: Val::Px(65.0),
-        margin: UiRect::all(Val::Px(20.0)),
-        justify_content: JustifyContent::Center,
-        align_items: AlignItems::Center,
-        ..default()
-    };
-
-    let button_text_style = TextStyle {
-        font_size: 40.0,
-        color: TEXT_COLOR,
-        ..default()
-    };
+    let button_style = create_button_style();
+    let button_text_style = create_button_text_style();
 
     commands
-        .spawn((
-            NodeBundle {
-                style: Style {
-                    width: Val::Percent(100.0),
-                    height: Val::Percent(100.0),
-                    align_items: AlignItems::Center,
-                    justify_content: JustifyContent::Center,
-                    ..default()
-                },
-                ..default()
-            },
-            OnSettingsMenuScreen,
-        ))
+        .spawn((create_menu_node_bundle(), OnSettingsMenuScreen))
         .with_children(|parent| {
             parent
                 .spawn(NodeBundle {
@@ -301,35 +297,11 @@ fn settings_menu_setup(mut commands: Commands) {
 }
 
 fn gameplay_settings_menu_setup(mut commands: Commands, speed: Res<SpeedConfiguration>) {
-    let button_style = Style {
-        width: Val::Px(200.0),
-        height: Val::Px(65.0),
-        margin: UiRect::all(Val::Px(20.0)),
-        justify_content: JustifyContent::Center,
-        align_items: AlignItems::Center,
-        ..default()
-    };
-
-    let button_text_style = TextStyle {
-        font_size: 40.0,
-        color: TEXT_COLOR,
-        ..default()
-    };
+    let button_style = create_button_style();
+    let button_text_style = create_button_text_style();
 
     commands
-        .spawn((
-            NodeBundle {
-                style: Style {
-                    width: Val::Percent(100.0),
-                    height: Val::Percent(100.0),
-                    align_items: AlignItems::Center,
-                    justify_content: JustifyContent::Center,
-                    ..default()
-                },
-                ..default()
-            },
-            OnGameplaySettingsMenuScreen,
-        ))
+        .spawn((create_menu_node_bundle(), OnGameplaySettingsMenuScreen))
         .with_children(|parent| {
             parent
                 .spawn(NodeBundle {
